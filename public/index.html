@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>太空救援站 - Flexbox 學習遊戲</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- 開始畫面 -->
+  <div id="start-screen" class="screen active">
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="start-content">
+      <div class="logo">
+        <span class="logo-icon">🚀</span>
+        <h1>太空救援站</h1>
+        <p class="subtitle">Flexbox 學習冒險</p>
+      </div>
+      
+      <div class="story-box">
+        <h2>故事背景</h2>
+        <p>西元 2157 年，一場突如其來的太空風暴襲擊了「星際希望號」太空站。</p>
+        <p>太空人們被拋入茫茫宇宙，漂流在無盡的星空之中...</p>
+        <p>身為太空站指揮官的你，必須運用 <strong>Flexbox</strong> 的力量，調整救援艙的位置，將每一位太空人安全救回！</p>
+      </div>
+      
+      <button id="start-btn" class="btn-primary">
+        <span>開始救援任務</span>
+        <span class="btn-icon">▶</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 難度選擇畫面 -->
+  <div id="difficulty-screen" class="screen">
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    
+    <div class="difficulty-content">
+      <h2>選擇救援難度</h2>
+      <p class="difficulty-desc">根據你的 Flexbox 經驗，選擇適合的任務難度</p>
+      
+      <div class="difficulty-cards">
+        <div class="difficulty-card" data-difficulty="beginner">
+          <div class="diff-icon">🌟</div>
+          <h3>初級救援</h3>
+          <p class="diff-subtitle">新手指揮官</p>
+          <ul class="diff-features">
+            <li>學習 justify-content 基礎</li>
+            <li>學習 align-items 基礎</li>
+            <li>下拉選單選擇答案</li>
+          </ul>
+          <div class="diff-levels">10 個關卡</div>
+        </div>
+        
+        <div class="difficulty-card" data-difficulty="intermediate">
+          <div class="diff-icon">⭐</div>
+          <h3>中級救援</h3>
+          <p class="diff-subtitle">資深指揮官</p>
+          <ul class="diff-features">
+            <li>flex-direction 方向控制</li>
+            <li>多屬性組合運用</li>
+            <li>手動輸入 CSS 程式碼</li>
+          </ul>
+          <div class="diff-levels">10 個關卡</div>
+        </div>
+        
+        <div class="difficulty-card" data-difficulty="advanced">
+          <div class="diff-icon">💫</div>
+          <h3>高級救援</h3>
+          <p class="diff-subtitle">傳奇指揮官</p>
+          <ul class="diff-features">
+            <li>flex-wrap、gap 進階屬性</li>
+            <li>四屬性以上綜合應用</li>
+            <li>完全手動輸入挑戰</li>
+          </ul>
+          <div class="diff-levels">10 個關卡</div>
+        </div>
+      </div>
+      
+      <button id="back-to-start" class="btn-secondary">← 返回</button>
+    </div>
+  </div>
+
+  <!-- 遊戲畫面 -->
+  <div id="game-screen" class="screen">
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    
+    <!-- 頂部資訊列 -->
+    <header class="game-header">
+      <div class="level-info">
+        <span class="level-badge" id="difficulty-badge">初級</span>
+        <span id="current-level">1</span>
+        <span class="level-total">/ 10</span>
+      </div>
+      <div class="mission-title" id="mission-title">救援漂流太空人</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </header>
+
+    <!-- 主遊戲區 -->
+    <main class="game-main">
+      <!-- 左側：救援艙控制台 -->
+      <section class="play-section">
+        <h3>救援艙控制台</h3>
+        <div class="rescue-pod" id="rescue-pod"></div>
+      </section>
+
+      <!-- 中間：程式碼編輯區 -->
+      <section class="code-section">
+        <h3>Flexbox 控制面板</h3>
+        <div class="code-editor">
+          <div class="code-line">
+            <span class="code-selector">.rescue-pod</span> {
+          </div>
+          <div class="code-line indent">
+            <span class="code-property">display:</span> 
+            <span class="code-value">flex;</span>
+          </div>
+          
+          <div class="property-group" id="property-inputs"></div>
+          
+          <div class="code-line">}</div>
+        </div>
+        
+        <div class="input-mode-indicator" id="input-mode-indicator">
+          <span class="mode-icon">⌨️</span>
+          <span class="mode-text">手動輸入模式</span>
+        </div>
+        
+        <button id="apply-btn" class="btn-apply">套用程式碼</button>
+        <div class="feedback" id="feedback"></div>
+      </section>
+
+      <!-- 右側：目標預覽 -->
+      <section class="target-section">
+        <h3>任務目標</h3>
+        <div class="target-container" id="target-container"></div>
+        <p class="hint-text" id="hint-text">將太空人排列成這個陣型</p>
+      </section>
+    </main>
+
+    <!-- Flexbox 寶典 -->
+    <div class="cheatsheet" id="cheatsheet">
+      <div class="cheatsheet-header" id="cheatsheet-toggle">
+        <span>📖 Flexbox 太空寶典（點擊展開詳細解說）</span>
+        <span class="toggle-icon" id="toggle-icon">▼</span>
+      </div>
+      <div class="cheatsheet-content" id="cheatsheet-content">
+        <div class="cheatsheet-tabs">
+          <button class="tab-btn active" data-tab="justify-content">justify-content</button>
+          <button class="tab-btn" data-tab="align-items">align-items</button>
+          <button class="tab-btn" data-tab="flex-direction">flex-direction</button>
+          <button class="tab-btn" data-tab="flex-wrap">flex-wrap</button>
+          <button class="tab-btn" data-tab="gap">gap</button>
+        </div>
+        
+        <div class="tab-content active" id="tab-justify-content">
+          <h4>justify-content - 主軸對齊</h4>
+          <p class="tab-desc">控制項目在主軸（預設為水平方向）上的排列方式</p>
+          <div class="property-demos">
+            <div class="demo-item">
+              <code>flex-start</code>
+              <div class="demo-box jc-start"><span></span><span></span><span></span></div>
+              <p>項目靠左對齊（預設值）</p>
+            </div>
+            <div class="demo-item">
+              <code>flex-end</code>
+              <div class="demo-box jc-end"><span></span><span></span><span></span></div>
+              <p>項目靠右對齊</p>
+            </div>
+            <div class="demo-item">
+              <code>center</code>
+              <div class="demo-box jc-center"><span></span><span></span><span></span></div>
+              <p>項目置中對齊</p>
+            </div>
+            <div class="demo-item">
+              <code>space-between</code>
+              <div class="demo-box jc-between"><span></span><span></span><span></span></div>
+              <p>兩端對齊，中間平均分布</p>
+            </div>
+            <div class="demo-item">
+              <code>space-around</code>
+              <div class="demo-box jc-around"><span></span><span></span><span></span></div>
+              <p>每個項目左右空間相等</p>
+            </div>
+            <div class="demo-item">
+              <code>space-evenly</code>
+              <div class="demo-box jc-evenly"><span></span><span></span><span></span></div>
+              <p>所有間距完全相等</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-content" id="tab-align-items">
+          <h4>align-items - 交叉軸對齊</h4>
+          <p class="tab-desc">控制項目在交叉軸（預設為垂直方向）上的排列方式</p>
+          <div class="property-demos">
+            <div class="demo-item">
+              <code>flex-start</code>
+              <div class="demo-box demo-tall ai-start"><span></span><span></span><span></span></div>
+              <p>項目靠頂部對齊</p>
+            </div>
+            <div class="demo-item">
+              <code>flex-end</code>
+              <div class="demo-box demo-tall ai-end"><span></span><span></span><span></span></div>
+              <p>項目靠底部對齊</p>
+            </div>
+            <div class="demo-item">
+              <code>center</code>
+              <div class="demo-box demo-tall ai-center"><span></span><span></span><span></span></div>
+              <p>項目垂直置中</p>
+            </div>
+            <div class="demo-item">
+              <code>stretch</code>
+              <div class="demo-box demo-tall ai-stretch"><span></span><span></span><span></span></div>
+              <p>項目拉伸填滿高度</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-content" id="tab-flex-direction">
+          <h4>flex-direction - 排列方向</h4>
+          <p class="tab-desc">定義主軸的方向，決定項目的排列方式</p>
+          <div class="property-demos">
+            <div class="demo-item">
+              <code>row</code>
+              <div class="demo-box fd-row"><span>1</span><span>2</span><span>3</span></div>
+              <p>水平排列（預設，左到右）</p>
+            </div>
+            <div class="demo-item">
+              <code>row-reverse</code>
+              <div class="demo-box fd-row-reverse"><span>1</span><span>2</span><span>3</span></div>
+              <p>水平反向排列（右到左）</p>
+            </div>
+            <div class="demo-item">
+              <code>column</code>
+              <div class="demo-box demo-col fd-column"><span>1</span><span>2</span><span>3</span></div>
+              <p>垂直排列（上到下）</p>
+            </div>
+            <div class="demo-item">
+              <code>column-reverse</code>
+              <div class="demo-box demo-col fd-column-reverse"><span>1</span><span>2</span><span>3</span></div>
+              <p>垂直反向排列（下到上）</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-content" id="tab-flex-wrap">
+          <h4>flex-wrap - 換行設定</h4>
+          <p class="tab-desc">控制項目是否換行以及換行方向</p>
+          <div class="property-demos">
+            <div class="demo-item">
+              <code>nowrap</code>
+              <div class="demo-box fw-nowrap"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+              <p>不換行，壓縮顯示（預設）</p>
+            </div>
+            <div class="demo-item">
+              <code>wrap</code>
+              <div class="demo-box fw-wrap"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+              <p>自動換行到下一列</p>
+            </div>
+            <div class="demo-item">
+              <code>wrap-reverse</code>
+              <div class="demo-box fw-wrap-reverse"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+              <p>換行但反向排列</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-content" id="tab-gap">
+          <h4>gap - 間距設定</h4>
+          <p class="tab-desc">設定 flex 項目之間的間距</p>
+          <div class="property-demos">
+            <div class="demo-item">
+              <code>gap: 10px</code>
+              <div class="demo-box gap-demo gap-10"><span></span><span></span><span></span></div>
+              <p>所有方向間距 10px</p>
+            </div>
+            <div class="demo-item">
+              <code>gap: 20px</code>
+              <div class="demo-box gap-demo gap-20"><span></span><span></span><span></span></div>
+              <p>所有方向間距 20px</p>
+            </div>
+            <div class="demo-item">
+              <code>row-gap: 10px</code>
+              <div class="demo-box gap-demo row-gap-demo"><span></span><span></span><span></span><span></span></div>
+              <p>僅設定行間距</p>
+            </div>
+            <div class="demo-item">
+              <code>column-gap: 10px</code>
+              <div class="demo-box gap-demo col-gap-demo"><span></span><span></span><span></span></div>
+              <p>僅設定列間距</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部提示 -->
+    <footer class="game-footer">
+      <button id="back-to-difficulty" class="btn-hint">← 選擇難度</button>
+      <button id="hint-btn" class="btn-hint">💡 提示</button>
+      <button id="reset-btn" class="btn-reset">🔄 重置</button>
+    </footer>
+  </div>
+
+  <!-- 成功彈窗 -->
+  <div id="success-modal" class="modal">
+    <div class="modal-content success">
+      <div class="success-icon">🎉</div>
+      <h2>救援成功！</h2>
+      <p id="success-message">你成功救回了所有太空人！</p>
+      <div class="learned-property" id="learned-property"></div>
+      <button id="next-level-btn" class="btn-primary">
+        <span>下一關</span>
+        <span class="btn-icon">→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 完成彈窗 -->
+  <div id="complete-modal" class="modal">
+    <div class="modal-content complete">
+      <div class="complete-icon">🏆</div>
+      <h2 id="complete-title">任務完成！</h2>
+      <p id="complete-desc">恭喜你完成所有救援任務！</p>
+      <ul class="skills-list" id="skills-list"></ul>
+      <div class="complete-buttons">
+        <button id="next-difficulty-btn" class="btn-primary">
+          <span>挑戰下一難度</span>
+          <span class="btn-icon">→</span>
+        </button>
+        <button id="restart-btn" class="btn-secondary">重新挑戰本難度</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 提示彈窗 -->
+  <div id="hint-modal" class="modal">
+    <div class="modal-content hint">
+      <h2>💡 任務提示</h2>
+      <p id="hint-content"></p>
+      <div class="hint-tip" id="hint-tip"></div>
+      <div class="hint-values" id="hint-values"></div>
+      <button id="close-hint-btn" class="btn-secondary">了解了</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
